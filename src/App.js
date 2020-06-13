@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import Item from "./Components/trainingRecords/Item";
-// import moment from "moment";
+import Result from "./Components/trainingRecords/Result";
 import { nanoid } from "nanoid";
 import { findLastIndex } from "lodash";
 function App() {
@@ -16,18 +15,17 @@ function App() {
   const handleForm = (e) => {
     e.preventDefault();
     setTrainig(
-      training
-        .concat([
-          {
-            id: nanoid(),
-            date: input.date,
-            passed: input.passed,
-          },
-        ])
-        .sort()
-        .reverse()
+      training.concat([
+        {
+          id: nanoid(),
+          date: input.date,
+          passed: input.passed,
+        },
+      ])
     );
-    // e.target.passed.value = "";
+    e.target.passed.value = "";
+    e.target.date.value = "";
+    setInput({});
   };
 
   return (
@@ -57,18 +55,7 @@ function App() {
           {/* <input type="submit" onClick={handleBtn} value="OK" /> */}
           <button type="submit"> OK </button>
         </form>
-        <div className="result">
-          <div className="heading">
-            <div className="heading-date">Дата</div>
-            <div className="heading-passed">Пройдено</div>
-            <div className="heading-act">Действия</div>
-          </div>
-          <div className="list">
-            {training.map((a) => (
-              <Item key={a.id} training={a} onRemove={removeTraining} />
-            ))}
-          </div>
-        </div>
+        <Result training={training} removeTraining={removeTraining} />
       </div>
     </div>
   );
