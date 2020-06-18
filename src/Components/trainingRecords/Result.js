@@ -3,20 +3,9 @@ import Item from "./Item";
 import moment from "moment";
 
 function Result({ training, removeTraining }) {
-  const res = training
-    .sort((a, b) => {
-      return moment(b.date) - moment(a.date);
-    })
-    .filter((thing, index, self) => {
-      return (
-        index ===
-        self.findIndex((t) => {
-          if (t.date == thing.date) {
-            return [{ passed: Number(t.passed) + Number(thing.passed) }];
-          }
-        })
-      );
-    });
+  const res = training.sort((a, b) => {
+    return moment(b.date) - moment(a.date);
+  });
 
   return (
     <div className="Result">
