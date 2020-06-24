@@ -2,49 +2,42 @@ import React, { useState } from "react";
 import "./App.css";
 import Result from "./Components/trainingRecords/Result";
 import { nanoid } from "nanoid";
-import { findLastIndex, filter } from "lodash";
 import Form from "./Components/trainingRecords/Form";
 
 function App() {
   const [training, setTrainig] = useState([]);
+  let arr = [];
+
   function addTraining(input) {
+    arr = training;
+
     if (training.length !== 0) {
-      training.map((a) => {
-        if (a.date === input.date) {
-          let arr = [
-            ...training,
-            {
-              id: nanoid(),
-              date: input.date,
-              passed: Number(input.passed) + Number(a.passed),
-            },
-          ];
-          arr.filter((s) => {
-            // что тут нужно написать. Подскажите пожалуйста
-          });
-          setTrainig(arr);
-        } else {
-          setTrainig(
-            training.concat([
-              {
-                id: nanoid(),
-                date: input.date,
-                passed: Number(input.passed),
-              },
-            ])
-          );
-        }
+      const index = arr.findIndex((el) => {
+        return el.date === input.date;
       });
-    } else {
-      setTrainig(
-        training.concat([
+      if (index >= 0) {
+        arr[index]["passed"] += Number(input.passed);
+        setTrainig([...arr]);
+      } else {
+        arr = [
+          ...training,
           {
             id: nanoid(),
             date: input.date,
             passed: Number(input.passed),
           },
-        ])
-      );
+        ];
+
+        setTrainig(arr);
+      }
+    } else {
+      setTrainig([
+        {
+          id: nanoid(),
+          date: input.date,
+          passed: Number(input.passed),
+        },
+      ]);
     }
   }
 
